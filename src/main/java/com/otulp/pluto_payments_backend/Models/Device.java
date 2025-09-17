@@ -25,4 +25,10 @@ public class Device {
 
     @Column(nullable = false, unique = true)
     private String deviceKey;
+
+    public Device(boolean isApproved, String macAddress, String deviceKey) {
+        this.isApproved = isApproved;
+        this.macAddress = macAddress;
+        this.deviceKey = deviceKey;
+    }
 }
