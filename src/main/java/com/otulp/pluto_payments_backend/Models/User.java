@@ -76,6 +76,4 @@ public class User {
         this.card = card;
         this.address = address;
     }
-
-
 }

@@ -19,7 +19,7 @@ public class Card {
     private String cardNum;
 
     @Column
-    private float pin;
+    private String pin;
 
     @Column
     private LocalDate expiryDate;
