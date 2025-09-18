@@ -58,7 +58,7 @@ public class PaymentController {
             // LOGG
             return ResponseEntity.badRequest().body("Not accepted");
         }
-        
+
         return ResponseEntity.ok("Payment received properly");
     }
 }
