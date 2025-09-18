@@ -35,6 +35,8 @@ public class PaymentController {
             @RequestBody String rawBody,
             @RequestHeader HttpHeaders headers) {
 
+
+        System.out.println(rawBody);
         ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
         Payment payment = null;
@@ -42,13 +44,14 @@ public class PaymentController {
         try {
             payment = mapper.readValue(rawBody, Payment.class);
         } catch (JsonProcessingException e) {
-            return ResponseEntity.badRequest().body("Not accepted");
+            System.out.println(e);
+            return ResponseEntity.badRequest().body("Unable to map values");
         }
 
         Device device = deviceRepository.findByMacAddress(payment.getDeviceMacAddress());
 
         if (!PlutoFormater.check_hmac(payment, device, headers, rawBody)) {
-            return ResponseEntity.badRequest().body("Not accepted");
+            return ResponseEntity.badRequest().body("HMAC not matching");
         }
 
         LocalDateTime now = LocalDateTime.now();
@@ -56,7 +59,7 @@ public class PaymentController {
 
         if (diff > MAXIMUM_TIME_DIFFERENCE_SECONDS) {
             // LOGG
-            return ResponseEntity.badRequest().body("Not accepted");
+            return ResponseEntity.badRequest().body("Time difference not accepted");
         }
         
         return ResponseEntity.ok("Payment received properly");
