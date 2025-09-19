@@ -19,7 +19,7 @@ public class Card {
     private String cardNum;
 
     @Column
-    private float pin;
+    private String pin;
 
     @Column
     private LocalDate expiryDate;
@@ -30,15 +30,15 @@ public class Card {
     @Column
     private boolean isActive;
 
-    @Column(columnDefinition = "int default 0")
-    private int wrongEntries;
+    @Column
+    private int wrongEntries = 0;
 
-    public Card(String cardNum, float pin, LocalDate expiryDate, LocalDate issueDate, boolean isActive) {
+    public Card(String cardNum, String pin, LocalDate expiryDate, LocalDate issueDate, boolean isActive, int wrongEntries) {
         this.cardNum = cardNum;
         this.pin = pin;
         this.expiryDate = expiryDate;
         this.issueDate = issueDate;
         this.isActive = isActive;
+        this.wrongEntries = wrongEntries;
     }
-
 }

@@ -18,18 +18,19 @@ public class Invoice {
 
     @JoinColumn
     @OneToOne
-    private User user;
+    private Customer user;
 
     @Column(nullable = false)
     private float totalSum;
 
-    private enum Status{
+    public enum Status{
         PENDING,
         LATE,
         PAID
     }
 
-    @Column(columnDefinition = "enum default PENDING")
+    @Enumerated(EnumType.STRING)
+    @Column
     private Status status;
 
     @Column(nullable = false)

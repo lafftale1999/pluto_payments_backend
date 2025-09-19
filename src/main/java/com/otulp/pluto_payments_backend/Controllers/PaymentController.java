@@ -58,7 +58,7 @@ public class PaymentController {
             // LOGG
             return ResponseEntity.badRequest().body("Time difference not accepted");
         }
-        
+
         return ResponseEntity.ok("Payment received properly");
     }
 }

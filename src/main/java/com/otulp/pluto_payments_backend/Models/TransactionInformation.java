@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Transaction {
+public class TransactionInformation {
     @Id
     @GeneratedValue
     private Long id;
@@ -23,18 +23,22 @@ public class Transaction {
     private LocalDate date;
 
     @JoinColumn
-    @OneToOne
+    @ManyToOne(optional = false)
     private Device device;
 
     @JoinColumn
-    @OneToOne
-    private User user;
+    @ManyToOne(optional = false)
+    private Customer user;
 
-    public Transaction(float cost, LocalDate date, Device device, User user) {
+    @JoinColumn
+    @ManyToOne(optional = false)
+    private Card card;
+
+    public TransactionInformation(float cost, LocalDate date, Device device, Customer user, Card card) {
         this.cost = cost;
         this.date = date;
         this.device = device;
         this.user = user;
+        this.card = card;
     }
-
 }
