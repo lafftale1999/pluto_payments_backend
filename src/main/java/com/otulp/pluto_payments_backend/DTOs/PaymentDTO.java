@@ -1,6 +1,5 @@
-package com.otulp.pluto_payments_backend.Models;
+package com.otulp.pluto_payments_backend.DTOs;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class Payment {
+public class PaymentDTO {
     @Min(0)
     private float amount;
 

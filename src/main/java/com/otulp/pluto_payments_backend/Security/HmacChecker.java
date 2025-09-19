@@ -2,13 +2,13 @@ package com.otulp.pluto_payments_backend.Security;
 
 import com.google.common.hash.Hashing;
 import com.otulp.pluto_payments_backend.Models.Device;
-import com.otulp.pluto_payments_backend.Models.Payment;
+import com.otulp.pluto_payments_backend.DTOs.PaymentDTO;
 import org.springframework.http.HttpHeaders;
 
 import java.nio.charset.StandardCharsets;
 
 public class HmacChecker {
-    public static boolean checkHmac(Payment payment, Device device, HttpHeaders headers, String rawBody) {
+    public static boolean checkHmac(PaymentDTO payment, Device device, HttpHeaders headers, String rawBody) {
         // 1. Create and compare hmac
         String hmac = headers.getFirst("Authorization");
         String url = "http://" + headers.getFirst("Host") + "/authorize"; // <-------------------- CHANGE HERE WHEN GOING FOR HTTPS

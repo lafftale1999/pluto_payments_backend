@@ -23,10 +23,10 @@ public class Customer {
     private String lastName;
 
     @Column(nullable = false)
-    private float balance;
+    private float creditUsed;
 
     @Column(nullable = false)
-    private float maxLimit;
+    private float creditLimit;
 
     @Column(nullable = false)
     private float points;
@@ -62,11 +62,11 @@ public class Customer {
     @ManyToOne(optional = false)
     private Address address;
 
-    public Customer(String firstName, String lastName, float balance, float maxLimit, Float points, String phoneNumber, LocalDate dateOfBirth, String email, String password, Type type, Card card, Address address) {
+    public Customer(String firstName, String lastName, float creditUsed, float creditLimit, Float points, String phoneNumber, LocalDate dateOfBirth, String email, String password, Type type, Card card, Address address) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.balance = balance;
-        this.maxLimit = maxLimit;
+        this.creditUsed = creditUsed;
+        this.creditLimit = creditLimit;
         this.points = points;
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
@@ -75,5 +75,22 @@ public class Customer {
         this.type = type;
         this.card = card;
         this.address = address;
+    }
+
+    public float getAvailableCredit() {
+        return creditLimit - creditUsed;
+    }
+
+    public void updateCredit(float amount) {
+        creditUsed += amount;
+
+        float pointRegulator = switch (this.type) {
+            case NEW -> 0.8f;
+            case REGULAR -> 1;
+            case LOYAL -> 1.2f;
+            case FROZEN -> 0;
+        };
+
+        points += amount * pointRegulator;
     }
 }
