@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.engine.internal.Cascade;
 
 import java.time.LocalDate;
 
@@ -12,7 +11,7 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Customer {
     @Id
     @GeneratedValue
     private Long id;
@@ -24,10 +23,10 @@ public class User {
     private String lastName;
 
     @Column(nullable = false)
-    private Long balance;
+    private float balance;
 
     @Column(nullable = false)
-    private Long maxLimit;
+    private float maxLimit;
 
     @Column(nullable = false)
     private float points;
@@ -44,13 +43,14 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private enum Type{
+    public enum Type{
         NEW,
         REGULAR,
         LOYAL,
         FROZEN
     }
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Type type;
 
@@ -59,10 +59,10 @@ public class User {
     private Card card;
 
     @JoinColumn
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Address address;
 
-    public User(String firstName, String lastName, Long balance, Long maxLimit, Float points, String phoneNumber, LocalDate dateOfBirth, String email, String password, Type type, Card card, Address address) {
+    public Customer(String firstName, String lastName, float balance, float maxLimit, Float points, String phoneNumber, LocalDate dateOfBirth, String email, String password, Type type, Card card, Address address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.balance = balance;

@@ -23,7 +23,7 @@ public class Address {
     @Column(nullable = false)
     private String city;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn
     private Country country;
 
