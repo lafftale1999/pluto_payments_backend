@@ -1,10 +1,11 @@
 package com.otulp.pluto_payments_backend.Repositories;
 
 import com.otulp.pluto_payments_backend.Models.Card;
+import com.otulp.pluto_payments_backend.Models.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface CardRepo extends JpaRepository<Card, Long> {
-    Card findByCardNum(String cardNum);
+public interface CustomerRepo extends JpaRepository<Customer, Long> {
+    Customer findByCard(Card card);
 }

@@ -2,11 +2,13 @@ package com.otulp.pluto_payments_backend.Models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.time.LocalDate;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -40,5 +42,16 @@ public class Card {
         this.issueDate = issueDate;
         this.isActive = isActive;
         this.wrongEntries = wrongEntries;
+    }
+
+    public void wrongCodeEntered() {
+        wrongEntries++;
+        if (wrongEntries >= 3) {
+            isActive = false;
+        }
+    }
+
+    public boolean checkPinCode(String pin) {
+        return this.pin.equalsIgnoreCase(pin);
     }
 }

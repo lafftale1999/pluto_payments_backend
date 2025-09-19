@@ -18,7 +18,7 @@ public class PlutoPaymentsBackendApplication {
 
 //    @Bean
 //    public CommandLineRunner fill (DeviceRepository repo, CountryRepo countryRepo, AddressRepo addressRepo,
-//                                   CardRepo cardRepo, UserRepo userRepo, InvoiceRepo invoiceRepo,
+//                                   CardRepo cardRepo, CustomerRepo customerRepo, InvoiceRepo invoiceRepo,
 //                                   TransactionRepo transactionRepo) {
 //        return (args) -> {
 //            repo.save(new Device(true, "E8:6B:EA:D9:05:E4", "carl_esp32"));
@@ -38,23 +38,23 @@ public class PlutoPaymentsBackendApplication {
 //                    expiryDate, issueDate, true, 0
 //            );
 //
-//            Customer user = new Customer(
+//            Customer customer = new Customer(
 //                    "Rigbert", "Moggby", 9300f, 20000f, 4560f, "0707837291",
 //                    LocalDate.of(1990, 1, 1),
 //                    "moggingOnYou@gmail.com", "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
 //                    Customer.Type.NEW, card, address
 //            );
 //
-//            userRepo.save(user);
-//            transactionRepo.save(new TransactionInformation(null, 3240f, LocalDate.now(), device, user, card));
-//            transactionRepo.save(new TransactionInformation(null, 4930f, LocalDate.now(), device, user, card));
-//            transactionRepo.save(new TransactionInformation(null, 1130f, LocalDate.now(), device, user, card));
+//            customerRepo.save(customer);
+//            transactionRepo.save(new TransactionInformation(null, 3240f, LocalDate.now(), device, customer, card));
+//            transactionRepo.save(new TransactionInformation(null, 4930f, LocalDate.now(), device, customer, card));
+//            transactionRepo.save(new TransactionInformation(null, 1130f, LocalDate.now(), device, customer, card));
 //
 //            LocalDate invoiceIssueDate = LocalDate.now();
 //            LocalDate invoiceExpiryDate = invoiceIssueDate.plusMonths(1);
 //            LocalDate invoiceReminderDate = invoiceExpiryDate.plusMonths(1);
 //
-//            invoiceRepo.save(new Invoice(null, user, 9300f, Invoice.Status.PENDING, invoiceIssueDate, invoiceExpiryDate, invoiceReminderDate));
+//            invoiceRepo.save(new Invoice(null, customer, 9300f, Invoice.Status.PENDING, invoiceIssueDate, invoiceExpiryDate, invoiceReminderDate));
 //        };
 //    }
 }
