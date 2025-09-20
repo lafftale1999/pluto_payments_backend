@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface CustomerRepo extends JpaRepository<Customer, Long> {
     Customer findByCard(Card card);
+    Customer findByEmail(String email);
 }
