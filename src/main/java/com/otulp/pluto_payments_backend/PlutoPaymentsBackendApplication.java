@@ -21,7 +21,7 @@ public class PlutoPaymentsBackendApplication {
 //                                   CardRepo cardRepo, CustomerRepo customerRepo, InvoiceRepo invoiceRepo,
 //                                   TransactionRepo transactionRepo) {
 //        return (args) -> {
-//            repo.save(new Device(true, "E8:6B:EA:D9:05:E4", "carl_esp32"));
+//            repo.save(new Device(true, "E8:6B:EA:D9:05:E4", "carl_esp32", "Säpo"));
 //            Device device = repo.findByMacAddress("E8:6B:EA:D9:05:E4");
 //
 //            Country country = new Country(null, "Sweden", "+46");
