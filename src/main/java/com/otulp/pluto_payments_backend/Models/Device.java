@@ -26,9 +26,13 @@ public class Device {
     @Column(nullable = false, unique = true)
     private String deviceKey;
 
-    public Device(boolean isApproved, String macAddress, String deviceKey) {
+    @Column(nullable = false)
+    private String companyName;
+
+    public Device(boolean isApproved, String macAddress, String deviceKey, String companyName) {
         this.isApproved = isApproved;
         this.macAddress = macAddress;
         this.deviceKey = deviceKey;
+        this.companyName = companyName;
     }
 }

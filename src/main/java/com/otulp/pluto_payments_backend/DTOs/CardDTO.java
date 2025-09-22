@@ -30,6 +30,7 @@ public class CardDTO {
 
     @NotEmpty
     @NotNull
-    private List<PaymentDTO> payments;
+    private List<TransactionDTO> transactions;
+
 
 }
