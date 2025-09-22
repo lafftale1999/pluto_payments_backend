@@ -5,33 +5,49 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+    // Acceptera alla betrodda klientcert och ge rollen MTLS (CN blir username)
+    @Bean
+    AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> preauthUds() {
+        return token -> User.withUsername(token.getName())
+                .password("{noop}N/A").roles("MTLS").build();
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                // API-style security: no CSRF (for now), enable CORS, disable form login & default logout page
-                .csrf(csrf -> csrf.disable())
-                .cors(Customizer.withDefaults())
-                .formLogin(form -> form.disable())
-                .logout(logout -> logout.disable())
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-                .authorizeHttpRequests(auth -> auth
-                        // allow preflight
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // auth endpoints
-                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.GET,  "/api/auth/me").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/logout").permitAll()
-                        // everything else requires an authenticated session
-                        .anyRequest().authenticated()
-                );
+        // 8080 (http) -> 443 (https) vid redirects
+        http.portMapper(pm -> pm.http(8080).mapsTo(443));
+
+        // X.509 (mTLS) – krävs på /private/**
+        http.x509(x -> x.authenticationUserDetailsService(preauthUds()));
+
+        // Kanal-krav: /public/** ska vara HTTP; /private/** ska vara HTTPS
+        http.requiresChannel(ch -> ch
+                .requestMatchers("/public/**").requiresInsecure()
+                .requestMatchers("/private/**").requiresSecure()
+        );
+
+        // Auktorisering:
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.OPTIONS, "/public/**").permitAll() // CORS preflight
+                .requestMatchers(HttpMethod.GET, "/public/**").permitAll()     // öppet över HTTP
+                .requestMatchers("/private/**").hasRole("MTLS")                // kräver mTLS över HTTPS
+                .anyRequest().denyAll()
+        );
+
+        // CSRF: behåll på, men ignorera för mTLS-vägen
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/private/**"));
+
+        // Aktivera CORS-stödet (använder CorsConfig ovan)
+        http.cors(cors -> {});
 
         return http.build();
     }
