@@ -15,7 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,6 +80,15 @@ public class AccountServiceImpl implements AccountService {
                 .sum(invoice.getTotalSum())
                 .build();
     }
+
+    @Override
+    public InvoicesDTO invoicesToInvoiceDTO(Long id) {
+        List<Invoice> invoices = invoiceRepo.findByUserId(id);
+        return InvoicesDTO.builder()
+                .invoices(invoices)
+                .build();
+    }
+
 
     @Override
     public ResponseEntity<Object> cardToCardDTO(Long id) {
