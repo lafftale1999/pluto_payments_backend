@@ -33,16 +33,16 @@ public class WebSecurityConfig {
 
         // Kanal-krav: /public/** ska vara HTTP; /private/** ska vara HTTPS
         http.requiresChannel(ch -> ch
-                .requestMatchers("/public/**").requiresInsecure()
-                .requestMatchers("/private/**").requiresSecure()
+                .requestMatchers("/api/**").requiresInsecure()
+                .requestMatchers("/device/**").requiresSecure()
         );
 
         // Auktorisering:
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS, "/public/**").permitAll() // CORS preflight
-                .requestMatchers(HttpMethod.GET, "/public/**").permitAll()     // öppet över HTTP
-                .requestMatchers(HttpMethod.POST, "/public/**").permitAll()     // öppet över HTTP
-                .requestMatchers("/private/**").hasRole("MTLS")                // kräver mTLS över HTTPS
+                .requestMatchers(HttpMethod.OPTIONS, "/api/**").permitAll() // CORS preflight
+                .requestMatchers(HttpMethod.GET, "/api/**").permitAll()     // öppet över HTTP
+                .requestMatchers(HttpMethod.POST, "/api/**").permitAll()     // öppet över HTTP
+                .requestMatchers("/device/**").hasRole("MTLS")                // kräver mTLS över HTTPS
                 .anyRequest().denyAll()
         );
         
@@ -52,7 +52,7 @@ public class WebSecurityConfig {
         http.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
           
         // CSRF: behåll på, men ignorera för mTLS-vägen
-        http.csrf(csrf -> csrf.ignoringRequestMatchers("/private/**"));
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/device/**"));
 
         // Aktivera CORS-stödet (använder CorsConfig ovan)
         http.cors(cors -> {});
