@@ -1,5 +1,4 @@
-
-# Backend for Pluto Payments
+# PLUTO PAYMENTS - BACKEND
 A lightweight backend application for a **credit card provider** that serves both hardware and frontend.
 The application implements function such as session based logins, mTLS connection with the Hardware Layer
 and HMAC checker for integrity. This application is part of the larger **Pluto Payments** ecosystem, which also
