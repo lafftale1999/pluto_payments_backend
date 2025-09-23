@@ -6,6 +6,7 @@ Maven & Hibernate & Springboot & MySQL Workbench & Lombok
 
 ## Links to related project files
 [front end](https://github.com/lafftale1999/pluto_payments_frontend)
+
 [hardware](https://github.com/lafftale1999/pluto_payments_hardware)
 
 
@@ -32,6 +33,4 @@ To run the project and see data without any front end you need to do the followi
 8. Now you can visit localhost:8080 in your browser and add various lines to test! Example:
   - localhost:8080/api/account/get_invoice
 
--Check the [..]src\main\java\com\otulp\pluto_payments_backend\Controllers.java
-
--For other pages
+-Check the [..]src\main\java\com\otulp\pluto_payments_backend\Controllers.java For other pages!
