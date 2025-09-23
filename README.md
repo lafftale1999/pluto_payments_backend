@@ -22,28 +22,28 @@ The application contains the following function:
 ## Usage
 After following the setup guide down below, these are the following defined APIs and their functions:
 
-### /api/auth/login
+### `/api/auth/login`
 Needs a LoginRequest defined in [`LoginRequest`](src/main/java/com/otulp/pluto_payments_backend/DTOs/LoginRequest.java).
 Controls that the user exists in the database and verifies the password. If the password is correct
 a session will be created and returns a cookie to the caller.
 
-### /api/auth/logout
+### `/api/auth/logout`
 Destroys the current session. The user needs to log back in.
 
-### /api/auth/account/change_password
+### `/api/auth/account/change_password`
 Receives a PasswordChangeDTO defined in [`PasswordChangeDTO`](src/main/java/com/otulp/pluto_payments_backend/DTOs/PasswordChangeDTO.java).
 Returns a ResponseEntity with a String containing the result message. Will either return a 400 (wrong password) or 200 (correct password).
 
-### /api/auth/account/card/me
+### `/api/auth/account/card/me`
 Returns the card of the currently logged-in user.
 
-### /api/auth/account/get_invoice/{invoiceId}
+### `/api/auth/account/get_invoice/{invoiceId}`
 Returns the Invoice information with Long id {invoiceId}.
 
-### /api/auth/account/get_invoices
+### `/api/auth/account/get_invoices`
 Returns an overview of invoices connected to the user.
 
-### /api/auth/account/get_account_d
+### `/api/auth/account/get_account_d`
 Returns a detailed overview of the currently logged-in account and the information tied to it.
 
 ## Dependencies
