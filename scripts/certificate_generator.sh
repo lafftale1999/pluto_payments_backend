@@ -2,38 +2,6 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-detect_ipv4() {
-  # 1) Tillåt override via env
-  if [[ -n "${BROKER_IP:-}" ]]; then
-    echo "$BROKER_IP"; return
-  fi
-
-  # 2) Linux: iproute2
-  if command -v ip >/dev/null 2>&1; then
-    ip -4 route get 1.1.1.1 2>/dev/null \
-      | awk '{for(i=1;i<=NF;i++){ if($i=="src"){print $(i+1); exit} }}' && return
-  fi
-
-  # 3) macOS
-  if [[ "$OSTYPE" == darwin* ]]; then
-    ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null && return
-  fi
-
-  # 4) Git Bash / Windows (PowerShell)
-  if [[ "$OSTYPE" == msys || "$OSTYPE" == cygwin ]]; then
-    if command -v powershell.exe >/dev/null 2>&1; then
-      ip=$(powershell.exe -NoProfile -Command "(Get-NetIPAddress -AddressFamily IPv4 | Where-Object { \$_.IPAddress -notmatch '^169\.254\.' -and \$_.IPAddress -ne '127.0.0.1' } | Select-Object -First 1 -ExpandProperty IPAddress)" \
-          | tr -d '\r')
-      if [[ -n "$ip" ]]; then echo "$ip"; return; fi
-    fi
-    # Fallback: plocka första icke-loopback/icke-APIPA ur ipconfig
-    ipconfig | grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' | grep -Ev '^127\.|^169\.254\.' | head -n1 && return
-  fi
-
-  # 5) Sista utvägen
-  echo "127.0.0.1"
-}
-
 IP="192.168.0.100"
 echo "Using local IP: $IP"
 
