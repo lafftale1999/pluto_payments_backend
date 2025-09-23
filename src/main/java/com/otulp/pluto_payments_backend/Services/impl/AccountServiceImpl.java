@@ -82,16 +82,26 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public InvoicesDTO invoicesToInvoiceDTO(Long id) {
-        List<Invoice> invoices = invoiceRepo.findByUserId(id);
+    public InvoicesDTO invoicesToInvoiceDTO(String email) {
+        Customer user = customerRepo.findByEmail(email);
+        Long id = user.getId();
+        List<InvoiceDTO> invoiceDTOS = new ArrayList<>();
+        List<Invoice> invoice = invoiceRepo.getInvoicesByUserId(id);
+        for(Invoice i : invoice){
+            invoiceDTOS.add(invoiceToInvoiceDTO(i.getId(),id));
+        }
+        AccountDTO accountDTO = customerToAccountDTO(user);
         return InvoicesDTO.builder()
-                .invoices(invoices)
+                .invoices(invoiceDTOS)
+                .account(accountDTO)
                 .build();
     }
 
 
     @Override
-    public ResponseEntity<Object> cardToCardDTO(Long id) {
+    public ResponseEntity<Object> cardToCardDTO(String email) {
+        Customer user =  customerRepo.findByEmail(email);
+        Long id = user.getId();
         Card card = cardRepo.findById(id).orElse(null);
         if(card == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface InvoiceRepo extends JpaRepository<Invoice, Long> {
     List<Invoice> findByUserId(Long Id);
+    List<Invoice> getInvoicesByUserId(Long Id);
 }
