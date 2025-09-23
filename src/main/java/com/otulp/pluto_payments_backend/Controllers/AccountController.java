@@ -27,22 +27,22 @@ public class AccountController {
         if (email == null) {
             return ResponseEntity.status(401).body("Not authenticated");
         }
-        return accountService.cardToCardDTO(email);
+        return accountService.cardToCardDTO();
     }
 
-    @RequestMapping("/get_invoice/{invoiceId}/{userId}")
-    public InvoiceDTO getInvoiceById(@PathVariable ("invoiceId")Long invoiceId, @PathVariable("userId") Long userId){
-        return accountService.invoiceToInvoiceDTO(invoiceId, userId);
+    @RequestMapping("/get_invoice/{invoiceId}")
+    public InvoiceDTO getInvoiceById(@PathVariable ("invoiceId")Long invoiceId){
+        return accountService.invoiceToInvoiceDTO(invoiceId);
     }
 
-    @RequestMapping("/get_invoices/{email}")
-    public InvoicesDTO getInvoices(@PathVariable String email){
-        return accountService.invoicesToInvoiceDTO(email);
+    @RequestMapping("/get_invoices")
+    public InvoicesDTO getInvoices(){
+        return accountService.invoicesToInvoiceDTO();
     }
 
-    @RequestMapping("/get_account_d/{email}")
-    public DetailedAccountDTO getAccountByEmail(@PathVariable String email){
-        return accountService.detailedAccountToAccountDTO(email);
+    @RequestMapping("/get_account_d")
+    public DetailedAccountDTO getAccountByEmail(){
+        return accountService.detailedAccountToAccountDTO();
     }
 
 }
