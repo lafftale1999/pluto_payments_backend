@@ -9,6 +9,7 @@ import com.otulp.pluto_payments_backend.Repositories.CardRepo;
 import com.otulp.pluto_payments_backend.Repositories.CustomerRepo;
 import com.otulp.pluto_payments_backend.Repositories.InvoiceRepo;
 import com.otulp.pluto_payments_backend.Repositories.TransactionRepo;
+import com.otulp.pluto_payments_backend.Security.SessionChecker;
 import com.otulp.pluto_payments_backend.Services.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -96,16 +97,22 @@ public class AccountServiceImpl implements AccountService {
                 .build();
     }
 
+    // Lägg till null checking VIKTIGT !!!
     @Override
     public DetailedAccountDTO detailedAccountToAccountDTO(String email) {
         Customer user = customerRepo.findByEmail(email);
         Long id = user.getId();
-        Card card = customerRepo.findCardById(id);
+        Card card = user.getCard();
         SmallCardDTO cardDto = new SmallCardDTO(card.getCardNum(), card.getExpiryDate(),card.isActive());
         List<TransactionInformation> transactions = transactionRepo.getTransactionsByUserId(id);
         List<TransactionDTO> transactionDTOs = new ArrayList<>();
         for(TransactionInformation t : transactions){
             transactionDTOs.add(new TransactionDTO(t.getId(),t.getDevice().getCompanyName(), t.getDate(), t.getCost()));
+        }
+        List<SmallInvoiceDTO> smallInvoiceDTOS = new ArrayList<>();
+        List<Invoice> invoices = invoiceRepo.getInvoicesByUserId(id);
+        for(Invoice s : invoices){
+            smallInvoiceDTOS.add(new SmallInvoiceDTO(s.getFinalDate(),s.getStatus(),s.getTotalSum()));
         }
         return  DetailedAccountDTO.builder()
                 .firstName(user.getFirstName())
@@ -119,6 +126,7 @@ public class AccountServiceImpl implements AccountService {
                 .creditLimit(user.getCreditLimit())
                 .card(cardDto)
                 .transactions(transactionDTOs)
+                .invoiceDTOs(smallInvoiceDTOS)
                 .build();
     }
 
