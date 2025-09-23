@@ -17,7 +17,6 @@ public class PaymentController {
     public ResponseEntity<String> authorizePayment(
             @RequestBody String rawBody,
             @RequestHeader HttpHeaders headers) {
-        System.out.println("============================== BEGINNING OF REQUEST ========================");
         return paymentService.authorizePayment(rawBody, headers);
     }
 }
