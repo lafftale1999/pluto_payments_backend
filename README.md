@@ -1,5 +1,28 @@
 
 # Backend for Pluto Payments
+A lightweight backend application for a **credit card provider** that serves both hardware and frontend.
+The application implements function such as session based logins, mTLS connection with the Hardware Layer
+and HMAC checker for integrity. This application is part of the larger **Pluto Payments** ecosystem, which also
+includes a database, hardware and frontend.
+
+For the full project, check out the main repository: [Pluto Payments](https://github.com/lafftale1999/pluto_payments)
+
+## About
+The application contains the following function:
+* **Networking**:
+  * 8080 for requests through /app/*
+  * 443 for confidential requests through /device/*
+* **Session Based Login**: 30 minute sessions
+* **DTOs**: For data sharing control
+* **Security**:
+  * mTLS connection on /device/*
+  * HMAC control with device key
+  * SHA256 hash for sensitive data
+
+## Usage
+After following the setup guide down below, these are the following defined APIs and their functions:
+
+### /app
 
 ## Libs & Software
 Maven & Hibernate & Springboot & MySQL Workbench & Lombok

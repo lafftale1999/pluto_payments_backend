@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.AuthenticationUserDetailsSe
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    // Acceptera alla betrodda klientcert och ge rollen MTLS (CN blir username)
     @Bean
     AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> preauthUds() {
         return token -> User.withUsername(token.getName())
@@ -25,19 +24,15 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // 8080 (http) -> 443 (https) vid redirects
         http.portMapper(pm -> pm.http(8080).mapsTo(443));
 
-        // X.509 (mTLS) – krävs på /private/**
         http.x509(x -> x.authenticationUserDetailsService(preauthUds()));
 
-        // Kanal-krav: /public/** ska vara HTTP; /private/** ska vara HTTPS
         http.requiresChannel(ch -> ch
                 .requestMatchers("/api/**").requiresInsecure()
                 .requestMatchers("/device/**").requiresSecure()
         );
 
-        // Auktorisering:
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/api/**").permitAll() // CORS preflight
                 .requestMatchers(HttpMethod.GET, "/api/**").permitAll()     // öppet över HTTP
@@ -50,11 +45,9 @@ public class WebSecurityConfig {
         http.formLogin(form -> form.disable());
         http.logout(logout -> logout.disable());
         http.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
-          
-        // CSRF: behåll på, men ignorera för mTLS-vägen
+
         http.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**", "/device/**"));
 
-        // Aktivera CORS-stödet (använder CorsConfig ovan)
         http.cors(cors -> {});
 
         return http.build();

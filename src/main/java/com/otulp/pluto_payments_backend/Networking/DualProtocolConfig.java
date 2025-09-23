@@ -18,7 +18,7 @@ public class DualProtocolConfig {
             http.setScheme("http");
             http.setPort(httpPort);
             http.setSecure(false);
-            http.setRedirectPort(443); // endast om du vill att Tomcat ska veta vart den ska redirecta vid "CONFIDENTIAL"-krav
+            http.setRedirectPort(443); // Redirect if CONFIDENTIAL
             factory.addAdditionalTomcatConnectors(http);
         };
     }

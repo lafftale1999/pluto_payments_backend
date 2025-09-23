@@ -43,8 +43,6 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public ResponseEntity<String> authorizePayment(String rawBody, HttpHeaders httpHeaders) {
 
-        System.out.println(rawBody);
-
         ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
         PaymentDTO payment = null;
