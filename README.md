@@ -26,11 +26,11 @@ To run the project and see data without any front end you need to do the followi
     FLUSH PRIVILEGES;
     create database pluto;
    ```
-4. Now head over to [..]\src\main\java\com\otulp\pluto_payments_backend.java
+4. Now head over to [..]\src\main\java\com\otulp\pluto_payments_backend\PlutoPaymentsBackendApplication.java
 5. Uncomment lines 19 through 59
 6. Run the project
 7. You should now comment the previously uncommented lines
 8. Now you can visit localhost:8080 in your browser and add various lines to test! Example:
   - localhost:8080/api/account/get_invoice
 
--Check the [..]\src\main\java\com\otulp\pluto_payments_backend\Controllers.java For other pages!
+-Check the [..]\src\main\java\com\otulp\pluto_payments_backend\Controllers\AccountController.java For other pages!
