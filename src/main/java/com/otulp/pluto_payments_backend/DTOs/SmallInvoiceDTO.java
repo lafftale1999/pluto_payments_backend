@@ -1,6 +1,6 @@
 package com.otulp.pluto_payments_backend.DTOs;
 
-import jakarta.persistence.Column;
+import com.otulp.pluto_payments_backend.Models.Invoice;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -9,27 +9,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CardDTO {
-
+public class SmallInvoiceDTO {
     @NotNull
-    private String cardNum;
-
-
-    @NotNull
-    private LocalDate expiryDate;
-
-
-    private boolean isActive;
-
     @NotEmpty
+    private LocalDate invoiceDate;
+
     @NotNull
-    private List<TransactionDTO> transactions;
+    @NotEmpty
+    private Invoice.Status status;
 
-
+    @NotNull
+    @NotEmpty
+    private float sum;
 }

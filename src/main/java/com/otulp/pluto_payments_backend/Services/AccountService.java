@@ -12,12 +12,14 @@ public interface AccountService {
 
     public AccountDTO customerToAccountDTO(Customer customer);
 
-    public ResponseEntity<Object> cardToCardDTO(String email);
+    public ResponseEntity<Object> cardToCardDTO();
 
     public TransactionDTO transactionToCardDTO(TransactionDTO transactionDTO);
 
-    public InvoiceDTO invoiceToInvoiceDTO(Long invoiceid, Long id);
+    public InvoiceDTO invoiceToInvoiceDTO(Long invoiceid);
 
-    public InvoicesDTO invoicesToInvoiceDTO(String email);
+    public InvoicesDTO invoicesToInvoiceDTO();
+
+    public DetailedAccountDTO detailedAccountToAccountDTO();
 
 }
