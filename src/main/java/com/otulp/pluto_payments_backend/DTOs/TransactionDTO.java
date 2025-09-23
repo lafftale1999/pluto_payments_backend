@@ -1,6 +1,7 @@
 package com.otulp.pluto_payments_backend.DTOs;
 
-import com.otulp.pluto_payments_backend.Models.Invoice;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -9,27 +10,28 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InvoiceDTO {
-    @NotNull
-    @NotEmpty
-    private LocalDate invoiceDate;
+public class TransactionDTO {
 
-    @NotNull
     @NotEmpty
-    private Invoice.Status status;
+    @NotNull
+    private Long transactionId;
 
-    @NotNull
     @NotEmpty
-    private List<TransactionDTO> transactions;
+    @NotNull
+    private String deviceCompanyName;
 
-    @NotNull
     @NotEmpty
-    private float sum;
+    @NotNull
+    private LocalDate transactionDate;
+
+    @NotEmpty
+    @NotNull
+    private float transactionCost;
+
 
 }

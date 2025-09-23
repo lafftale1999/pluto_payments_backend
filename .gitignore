@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### CERTIFICATES ###
+# src/main/resources/authorization/*

@@ -17,6 +17,10 @@ import java.util.List;
 public class InvoicesDTO {
     @NotNull
     @NotEmpty
-    private List<Invoice> invoices;
+    private List<InvoiceDTO> invoices;
+
+    @NotNull
+    @NotEmpty
+    private AccountDTO account;
 
 }
