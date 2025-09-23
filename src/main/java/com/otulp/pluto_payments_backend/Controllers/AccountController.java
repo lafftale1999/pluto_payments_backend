@@ -35,4 +35,9 @@ public class AccountController {
         return accountService.invoicesToInvoiceDTO(email);
     }
 
+    @RequestMapping("/get_account_d/{email}")
+    public DetailedAccountDTO getAccountByEmail(@PathVariable String email){
+        return accountService.detailedAccountToAccountDTO(email);
+    }
+
 }

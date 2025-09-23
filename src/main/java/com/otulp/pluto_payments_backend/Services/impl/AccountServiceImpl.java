@@ -97,6 +97,32 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public DetailedAccountDTO detailedAccountToAccountDTO(String email) {
+        Customer user = customerRepo.findByEmail(email);
+        Long id = user.getId();
+        Card card = customerRepo.findCardById(id);
+        SmallCardDTO cardDto = new SmallCardDTO(card.getCardNum(), card.getExpiryDate(),card.isActive());
+        List<TransactionInformation> transactions = transactionRepo.getTransactionsByUserId(id);
+        List<TransactionDTO> transactionDTOs = new ArrayList<>();
+        for(TransactionInformation t : transactions){
+            transactionDTOs.add(new TransactionDTO(t.getId(),t.getDevice().getCompanyName(), t.getDate(), t.getCost()));
+        }
+        return  DetailedAccountDTO.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .phoneNum(user.getPhoneNumber())
+                .address(user.getAddress())
+                .points(user.getPoints())
+                .balance(user.getCreditLimit() - user.getCreditUsed())
+                .creditUsed(user.getCreditUsed())
+                .creditLimit(user.getCreditLimit())
+                .card(cardDto)
+                .transactions(transactionDTOs)
+                .build();
+    }
+
+    @Override
     public ResponseEntity<Object> cardToCardDTO(String email) {
         Customer user =  customerRepo.findByEmail(email);
         Long id = user.getId();

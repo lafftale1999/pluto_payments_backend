@@ -1,5 +1,7 @@
 package com.otulp.pluto_payments_backend.DTOs;
 
+import com.otulp.pluto_payments_backend.Models.Address;
+import com.otulp.pluto_payments_backend.Models.Card;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -32,7 +34,7 @@ public class DetailedAccountDTO {
 
     @NotEmpty
     @NotNull
-    private String address;
+    private Address address;
 
     @NotEmpty
     @NotNull
@@ -52,7 +54,11 @@ public class DetailedAccountDTO {
 
     @NotEmpty
     @NotNull
-    private InvoicesDTO invoices;
+    private List<SmallInvoiceDTO> invoiceDTOs;
+
+    @NotEmpty
+    @NotNull
+    private SmallCardDTO card;
 
     @NotEmpty
     @NotNull
