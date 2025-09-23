@@ -15,5 +15,5 @@ keyUsage           = digitalSignature, keyEncipherment
 basicConstraints   = CA:FALSE
 
 [ alt_names ]
-IP.1  = 172.18.192.1
+IP.1  = 192.168.0.100
 DNS.1 = localhost

@@ -34,7 +34,7 @@ detect_ipv4() {
   echo "127.0.0.1"
 }
 
-IP="$(detect_ipv4)"
+IP="192.168.0.100"
 echo "Using local IP: $IP"
 
 CERT_LIFETIME=3650
@@ -147,7 +147,7 @@ req_extensions     = req_ext
 distinguished_name = dn
 
 [ dn ]
-CN = ${CLIENT_NAME}
+CN = ${CLIENT_CN}
 
 [ req_ext ]
 extendedKeyUsage   = clientAuth

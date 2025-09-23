@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/private")
+@RequestMapping("/device")
 public class PaymentController {
 
     private final PaymentService paymentService;
@@ -17,7 +17,7 @@ public class PaymentController {
     public ResponseEntity<String> authorizePayment(
             @RequestBody String rawBody,
             @RequestHeader HttpHeaders headers) {
-
+        System.out.println("============================== BEGINNING OF REQUEST ========================");
         return paymentService.authorizePayment(rawBody, headers);
     }
 }

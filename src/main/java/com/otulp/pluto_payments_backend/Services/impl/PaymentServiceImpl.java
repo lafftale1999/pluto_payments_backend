@@ -42,6 +42,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public ResponseEntity<String> authorizePayment(String rawBody, HttpHeaders httpHeaders) {
+
+        System.out.println(rawBody);
+
         ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
         PaymentDTO payment = null;
@@ -50,43 +53,53 @@ public class PaymentServiceImpl implements PaymentService {
             payment = mapper.readValue(rawBody, PaymentDTO.class);
         } catch (JsonProcessingException e) {
             System.out.println(e);
+            System.out.println("Couldn't map request");
             return ResponseEntity.badRequest().body("Unknown error");
         }
 
         // CHECK DEVICE
         Device device = deviceRepository.findByMacAddress(payment.getDeviceMacAddress());
         if (device == null || !device.isApproved()) {
+            System.out.println("Device not found");
             return ResponseEntity.badRequest().body("Not authorized");
         }
 
         // CHECK INTEGRITY
-        if (!HmacChecker.checkHmac(payment, device, httpHeaders, rawBody)) {
+        if (!HmacChecker.checkHmac(device, httpHeaders, rawBody)) {
+            System.out.println("HMAC not matching");
             return ResponseEntity.badRequest().body("Not authorized");
         }
 
         // CHECK REPLAY
         if (!isWithinTimeFrame(payment.getTimeStamp())) {
-            // LOGG
+            System.out.println("Time difference too big");
             return ResponseEntity.badRequest().body("Unknown error");
         }
 
         // CHECK CARD
         Card card = cardRepo.findByCardNum(payment.getCardNumber());
         if (card == null) {
+            System.out.println("No Card with that card number");
             return ResponseEntity.badRequest().body("Not authorized");
         }
         if (!card.isActive()) {
+            System.out.println("Card is inactive");
             return ResponseEntity.badRequest().body("Card inactive\nContact supplier");
         }
         if (isExpired(card)) {
             card.setActive(false);
             cardRepo.save(card);
+            System.out.println("Card has expired");
             return ResponseEntity.badRequest().body("Card expired\nContact supplier");
         }
         if (!card.checkPinCode(payment.getPinCode())) {
             card.wrongCodeEntered();
             cardRepo.save(card);
-            if (!card.isActive()) return ResponseEntity.badRequest().body("Card inactivated\nContact supplier");
+            if (!card.isActive()) {
+                System.out.println("Card inactivated because of pin entries");
+                return ResponseEntity.badRequest().body("Card inactivated\nContact supplier");
+            }
+            System.out.println("Wrong pin code");
             return ResponseEntity.badRequest().body("Wrong code\nTries left: " + (3 - card.getWrongEntries()));
         }
 
