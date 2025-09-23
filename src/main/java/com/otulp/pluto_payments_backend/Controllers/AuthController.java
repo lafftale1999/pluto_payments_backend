@@ -2,6 +2,8 @@ package com.otulp.pluto_payments_backend.Controllers;
 
 import com.otulp.pluto_payments_backend.Repositories.CustomerRepo;
 import com.otulp.pluto_payments_backend.Models.Customer;
+import com.otulp.pluto_payments_backend.Security.PlutoHasher;
+import com.otulp.pluto_payments_backend.Security.SessionChecker;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -45,9 +47,10 @@ public class AuthController {
         }
 
         // Password hashing goes here:
+        String hashedPassword = PlutoHasher.hashedString(loginRequest.getPassword());
 
         // 2. Verify password (no hashing yet!)
-        if (!user.getPassword().equals(loginRequest.getPassword())) {
+        if (!user.getPassword().equals(hashedPassword)) {
             return ResponseEntity.status(401).body("Invalid credentials");
         }
 
@@ -75,15 +78,13 @@ public class AuthController {
     // Checks if session is valid and returns current user info.
     @GetMapping("/me")
     public ResponseEntity<?> me() {
-        var auth = SecurityContextHolder.getContext().getAuthentication();
-
-        // If no authentication or anonymous user → 401 Unauthorized
-        if (auth == null || !auth.isAuthenticated() || "anonymousUser".equals(auth.getPrincipal())) {
+        String email = SessionChecker.getSessionEmail();
+        if (email == null) {
             return ResponseEntity.status(401).body("Not authenticated");
         }
 
         // Find the full Customer entity by email (stored in Authentication principal)
-        Customer user = customerRepo.findByEmail(auth.getName());
+        Customer user = customerRepo.findByEmail(email);
 
         // Return basic info about the logged-in user
         return ResponseEntity.ok(Map.of(

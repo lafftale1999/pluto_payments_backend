@@ -28,9 +28,7 @@ public class HmacChecker {
 
         canonicalString += device.getDeviceKey();
 
-        String serverHmac = Hashing.sha256()
-                .hashString(canonicalString, StandardCharsets.UTF_8)
-                .toString();
+        String serverHmac = PlutoHasher.hashedString(canonicalString);
 
         return hmac.equals(serverHmac);
     }
