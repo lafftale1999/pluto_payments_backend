@@ -31,5 +31,4 @@ public class InvoiceDTO {
     @NotNull
     @NotEmpty
     private float sum;
-
 }
