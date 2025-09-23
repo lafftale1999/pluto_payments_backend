@@ -3,8 +3,10 @@ package com.otulp.pluto_payments_backend.Security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
@@ -39,10 +41,16 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/public/**").permitAll() // CORS preflight
                 .requestMatchers(HttpMethod.GET, "/public/**").permitAll()     // öppet över HTTP
+                .requestMatchers(HttpMethod.POST, "/public/**").permitAll()     // öppet över HTTP
                 .requestMatchers("/private/**").hasRole("MTLS")                // kräver mTLS över HTTPS
                 .anyRequest().denyAll()
         );
-
+        
+        http.cors(Customizer.withDefaults());
+        http.formLogin(form -> form.disable());
+        http.logout(logout -> logout.disable());
+        http.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+          
         // CSRF: behåll på, men ignorera för mTLS-vägen
         http.csrf(csrf -> csrf.ignoringRequestMatchers("/private/**"));
 

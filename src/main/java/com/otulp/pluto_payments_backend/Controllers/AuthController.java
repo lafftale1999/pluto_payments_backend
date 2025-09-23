@@ -88,7 +88,8 @@ public class AuthController {
 
         // Return basic info about the logged-in user
         return ResponseEntity.ok(Map.of(
-                "email", user.getEmail()
+                "email", user.getEmail(),
+                "name", user.getFirstName()
         ));
     }
 
