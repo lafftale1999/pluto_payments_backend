@@ -44,7 +44,6 @@ public class AccountServiceImpl implements AccountService {
         return ResponseEntity.badRequest().body("Password change failed.");
     }
 
-
     @Override
     public AccountDTO customerToAccountDTO(Customer customer) {
         return AccountDTO.builder()
@@ -96,7 +95,6 @@ public class AccountServiceImpl implements AccountService {
                 .account(accountDTO)
                 .build();
     }
-
 
     @Override
     public ResponseEntity<Object> cardToCardDTO(String email) {
