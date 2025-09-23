@@ -21,7 +21,7 @@ public class CorsConfig {
         cors.setExposedHeaders(List.of("Set-Cookie"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/public/**", cors);
+        source.registerCorsConfiguration("/api/**", cors);
         return source;
     }
 }
