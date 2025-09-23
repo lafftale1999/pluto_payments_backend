@@ -20,4 +20,6 @@ public interface AccountService {
 
     public InvoicesDTO invoicesToInvoiceDTO(String email);
 
+    public DetailedAccountDTO detailedAccountToAccountDTO(String email);
+
 }
