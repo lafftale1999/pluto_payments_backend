@@ -124,11 +124,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ResponseEntity<Object> cardToCardDTO(String email) {
-        Customer user =  customerRepo.findByEmail(email);
-        Long id = user.getId();
-        Card card = cardRepo.findById(id).orElse(null);
-        if(card == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        Customer user = customerRepo.findByEmail(email);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+        }
+
+        Card card = user.getCard();
+        if (card == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Card not found");
         }
         List<TransactionInformation> transactions = transactionRepo.getTransactionsByCard(card);
         List<TransactionDTO> transactionDTOs = new ArrayList<>();
@@ -143,8 +146,5 @@ public class AccountServiceImpl implements AccountService {
                 .build();
         return ResponseEntity.ok(returnCard);
     }
-
-
-
 
 }

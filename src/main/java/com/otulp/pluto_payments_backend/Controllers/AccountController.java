@@ -1,6 +1,7 @@
 package com.otulp.pluto_payments_backend.Controllers;
 
 import com.otulp.pluto_payments_backend.DTOs.*;
+import com.otulp.pluto_payments_backend.Security.SessionChecker;
 import com.otulp.pluto_payments_backend.Services.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/public")
+@RequestMapping("/api/account")
 public class AccountController {
 
     private final AccountService accountService;
@@ -20,8 +21,12 @@ public class AccountController {
     }
 
 
-    @RequestMapping("/get_card/{email}")
-    public ResponseEntity<Object> getCardsById(@PathVariable String email){
+    @GetMapping("/card/me")
+    public ResponseEntity<?> myCard() {
+        String email = SessionChecker.getSessionEmail(); // din helper
+        if (email == null) {
+            return ResponseEntity.status(401).body("Not authenticated");
+        }
         return accountService.cardToCardDTO(email);
     }
 

@@ -16,16 +16,15 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class CardDTO {
-    @NotEmpty
+
     @NotNull
     private String cardNum;
 
-    @NotEmpty
+
     @NotNull
     private LocalDate expiryDate;
 
-    @NotEmpty
-    @NotNull
+
     private boolean isActive;
 
     @NotEmpty
