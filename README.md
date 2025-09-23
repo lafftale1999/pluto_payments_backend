@@ -5,9 +5,9 @@
 Maven & Hibernate & Springboot & MySQL Workbench & Lombok
 
 ## Links to related project files
-[front end](https://github.com/lafftale1999/pluto_payments_frontend)
+[Front end](https://github.com/lafftale1999/pluto_payments_frontend)
 
-[hardware](https://github.com/lafftale1999/pluto_payments_hardware)
+[Hardware](https://github.com/lafftale1999/pluto_payments_hardware)
 
 
 In this project we have created the following :
