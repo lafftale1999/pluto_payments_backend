@@ -1,18 +1,15 @@
 package com.otulp.pluto_payments_backend.Controllers;
 
-import com.otulp.pluto_payments_backend.DTOs.InvoiceDTO;
-import com.otulp.pluto_payments_backend.DTOs.InvoicesDTO;
-import com.otulp.pluto_payments_backend.DTOs.PasswordChangeDTO;
-import com.otulp.pluto_payments_backend.DTOs.TransactionDTO;
+import com.otulp.pluto_payments_backend.DTOs.*;
 import com.otulp.pluto_payments_backend.Services.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/public")
 public class AccountController {
 
     private final AccountService accountService;
