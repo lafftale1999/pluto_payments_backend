@@ -39,10 +39,16 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/public/**").permitAll() // CORS preflight
                 .requestMatchers(HttpMethod.GET, "/public/**").permitAll()     // öppet över HTTP
+                .requestMatchers(HttpMethod.POST, "/public/**").permitAll()     // öppet över HTTP
                 .requestMatchers("/private/**").hasRole("MTLS")                // kräver mTLS över HTTPS
                 .anyRequest().denyAll()
         );
-
+        
+        http.cors(Customizer.withDefaults());
+        http.formLogin(form -> form.disable());
+        http.logout(logout -> logout.disable());
+        http.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+          
         // CSRF: behåll på, men ignorera för mTLS-vägen
         http.csrf(csrf -> csrf.ignoringRequestMatchers("/private/**"));
 
