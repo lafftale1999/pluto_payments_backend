@@ -5,8 +5,9 @@
 Maven & Hibernate & Springboot & MySQL Workbench & Lombok
 
 ## Links to related project files
-[front end]((https://github.com/lafftale1999/pluto_payments_frontend))
-[hardware]((https://github.com/lafftale1999/pluto_payments_hardware))
+[front end](https://github.com/lafftale1999/pluto_payments_frontend)
+[hardware](https://github.com/lafftale1999/pluto_payments_hardware)
+
 
 In this project we have created the following :
 - Database
@@ -32,4 +33,5 @@ To run the project and see data without any front end you need to do the followi
   - localhost:8080/api/account/get_invoice
 
 -Check the [..]src\main\java\com\otulp\pluto_payments_backend\Controllers.java
+
 -For other pages
