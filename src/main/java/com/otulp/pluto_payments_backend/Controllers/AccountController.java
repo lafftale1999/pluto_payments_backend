@@ -20,9 +20,9 @@ public class AccountController {
     }
 
 
-    @RequestMapping("/get_card/{id}")
-    public ResponseEntity<Object> getCardsById(@PathVariable Long id){
-        return accountService.cardToCardDTO(id);
+    @RequestMapping("/get_card/{email}")
+    public ResponseEntity<Object> getCardsById(@PathVariable String email){
+        return accountService.cardToCardDTO(email);
     }
 
     @RequestMapping("/get_invoice/{invoiceId}/{userId}")
@@ -30,9 +30,9 @@ public class AccountController {
         return accountService.invoiceToInvoiceDTO(invoiceId, userId);
     }
 
-    @RequestMapping("/get_invoices/{id}")
-    public InvoicesDTO getInvoices(@PathVariable Long id){
-        return accountService.invoicesToInvoiceDTO(id);
+    @RequestMapping("/get_invoices/{email}")
+    public InvoicesDTO getInvoices(@PathVariable String email){
+        return accountService.invoicesToInvoiceDTO(email);
     }
 
 }
