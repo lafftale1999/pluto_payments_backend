@@ -52,7 +52,7 @@ public class WebSecurityConfig {
         http.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
           
         // CSRF: behåll på, men ignorera för mTLS-vägen
-        http.csrf(csrf -> csrf.ignoringRequestMatchers("/device/**"));
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**", "/device/**"));
 
         // Aktivera CORS-stödet (använder CorsConfig ovan)
         http.cors(cors -> {});
