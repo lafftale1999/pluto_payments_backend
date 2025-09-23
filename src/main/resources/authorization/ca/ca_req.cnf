@@ -1,0 +1,8 @@
+[ req ]
+prompt = no
+distinguished_name = dn
+
+[ dn ]
+C  = SE
+O  = Pluto
+CN = pluto_payments

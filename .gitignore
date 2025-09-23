@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### CERTIFICATES ###
-src/main/resources/authorization/*
+# src/main/resources/authorization/*
