@@ -15,11 +15,12 @@ public class PasswordChangeDTO {
 
     @NotEmpty
     @NotNull
+    private String email;
+    @NotEmpty
+    @NotNull
     private String oldPassword;
     @NotEmpty
     @NotNull
     private String newPassword;
-    @NotEmpty
-    @NotNull
-    private String email;
+
 }

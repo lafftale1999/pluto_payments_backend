@@ -9,6 +9,7 @@ import com.otulp.pluto_payments_backend.Repositories.CardRepo;
 import com.otulp.pluto_payments_backend.Repositories.CustomerRepo;
 import com.otulp.pluto_payments_backend.Repositories.InvoiceRepo;
 import com.otulp.pluto_payments_backend.Repositories.TransactionRepo;
+import com.otulp.pluto_payments_backend.Security.PlutoHasher;
 import com.otulp.pluto_payments_backend.Security.SessionChecker;
 import com.otulp.pluto_payments_backend.Services.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -32,18 +33,27 @@ public class AccountServiceImpl implements AccountService {
     private final InvoiceRepo invoiceRepo;
 
     @Override
-    public ResponseEntity<String> changePassword(PasswordChangeDTO passwordChangeDTO) {
-        passwordChangeDTO.setNewPassword(passwordChangeDTO.getNewPassword());
-        Customer customer = customerRepo.findByEmail(passwordChangeDTO.getEmail());
-        if(customer != null){
-            if(customer.getPassword().equals(passwordChangeDTO.getOldPassword())
-                    && !passwordChangeDTO.getNewPassword().equals(passwordChangeDTO.getOldPassword())){
-                customer.setPassword(passwordChangeDTO.getNewPassword());
-                customerRepo.save(customer);
-                return ResponseEntity.ok("Password changed successfully");
-            }
+    public ResponseEntity<String> changePassword(PasswordChangeDTO dto) {
+
+        Customer customer = customerRepo.findByEmail(dto.getEmail());
+        if (customer == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
-        return ResponseEntity.badRequest().body("Password change failed.");
+
+        String oldHash = PlutoHasher.hashedString(dto.getOldPassword());
+        if (!oldHash.equals(customer.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Old password incorrect");
+        }
+
+        if (dto.getNewPassword().equals(dto.getOldPassword())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("New password must differ from old password");
+        }
+
+        String newHash = PlutoHasher.hashedString(dto.getNewPassword());
+        customer.setPassword(newHash);
+        customerRepo.save(customer);
+
+        return ResponseEntity.ok("Password changed successfully");
     }
 
     @Override
