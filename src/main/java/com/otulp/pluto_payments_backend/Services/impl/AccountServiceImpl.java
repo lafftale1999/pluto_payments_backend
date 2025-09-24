@@ -135,7 +135,7 @@ public class AccountServiceImpl implements AccountService {
         List<SmallInvoiceDTO> smallInvoiceDTOS = new ArrayList<>();
         List<Invoice> invoices = invoiceRepo.getInvoicesByUserId(id);
         for(Invoice s : invoices){
-            smallInvoiceDTOS.add(new SmallInvoiceDTO(s.getFinalDate(),s.getStatus(),s.getTotalSum()));
+            smallInvoiceDTOS.add(new SmallInvoiceDTO(s.getId(), s.getFinalDate(),s.getStatus(),s.getTotalSum()));
         }
         return  DetailedAccountDTO.builder()
                 .firstName(user.getFirstName())
