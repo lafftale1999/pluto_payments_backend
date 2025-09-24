@@ -14,6 +14,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class SmallInvoiceDTO {
+
+    @NotNull
+    @NotEmpty
+    private Long id;
+
     @NotNull
     @NotEmpty
     private LocalDate invoiceDate;

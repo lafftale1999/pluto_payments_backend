@@ -16,6 +16,11 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class InvoiceDTO {
+
+    @NotNull
+    @NotEmpty
+    private Long id;
+
     @NotNull
     @NotEmpty
     private LocalDate invoiceDate;
