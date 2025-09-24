@@ -42,6 +42,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public ResponseEntity<String> authorizePayment(String rawBody, HttpHeaders httpHeaders) {
+
         ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
         PaymentDTO payment = null;
@@ -60,13 +61,12 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         // CHECK INTEGRITY
-        if (!HmacChecker.checkHmac(payment, device, httpHeaders, rawBody)) {
+        if (!HmacChecker.checkHmac(device, httpHeaders, rawBody)) {
             return ResponseEntity.badRequest().body("Not authorized");
         }
 
         // CHECK REPLAY
         if (!isWithinTimeFrame(payment.getTimeStamp())) {
-            // LOGG
             return ResponseEntity.badRequest().body("Unknown error");
         }
 
@@ -86,7 +86,9 @@ public class PaymentServiceImpl implements PaymentService {
         if (!card.checkPinCode(payment.getPinCode())) {
             card.wrongCodeEntered();
             cardRepo.save(card);
-            if (!card.isActive()) return ResponseEntity.badRequest().body("Card inactivated\nContact supplier");
+            if (!card.isActive()) {
+                return ResponseEntity.badRequest().body("Card inactivated\nContact supplier");
+            }
             return ResponseEntity.badRequest().body("Wrong code\nTries left: " + (3 - card.getWrongEntries()));
         }
 

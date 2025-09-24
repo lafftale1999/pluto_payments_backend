@@ -6,7 +6,7 @@ req_extensions     = req_ext
 distinguished_name = dn
 
 [ dn ]
-CN = admin
+CN = client
 
 [ req_ext ]
 extendedKeyUsage   = clientAuth
